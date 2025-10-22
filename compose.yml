@@ -1,0 +1,20 @@
+services:
+  iov-edge-detector:
+    build: .
+    container_name: iov-edge-detector
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount network traffic data directory if needed
+      - ./traffic_data:/app/traffic_data
+    deploy:
+      resources:
+        limits:
+          # Simulate edge device constraints
+          cpus: '1.0'
+          memory: 1GB
+    restart: unless-stopped
+    environment:
+      - MODEL_PATH=/app/xgboost_model.json
+      - LOG_LEVEL=INFO
+      - BATCH_SIZE=32
